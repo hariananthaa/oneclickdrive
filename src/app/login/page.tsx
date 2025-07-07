@@ -1,4 +1,5 @@
-import { LoginForm } from "@/components/login-form"
+import { LoginForm } from "@/components/login-form";
+import Image from "next/image";
 
 export default function Page() {
   return (
@@ -7,5 +8,5 @@ export default function Page() {
         <LoginForm />
       </div>
     </div>
-  )
+  );
 }
