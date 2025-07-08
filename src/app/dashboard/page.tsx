@@ -1,5 +1,5 @@
-import React from "react";
+import CarsPage from "./cars/page";
 
-export default function Dashboard() {
-  return <div>Dashboard</div>;
+export default function DashboardPage() {
+  return <CarsPage />;
 }

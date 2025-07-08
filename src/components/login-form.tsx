@@ -13,6 +13,7 @@ import { Label } from "@/components/ui/label";
 import { useActionState } from "react";
 import { loginAction } from "@/lib/auth-actions";
 import Image from "next/image";
+import Logo from "./logo";
 
 export function LoginForm({
   className,
@@ -35,16 +36,7 @@ export function LoginForm({
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <a href="/" className="flex items-center gap-2 self-center font-medium">
-        <Image
-          className="dark:invert"
-          src="https://www.oneclickdrive.com/application/views/images/main-logo-mob.svg?v=4"
-          alt="OneClickDrive logo"
-          width={180}
-          height={38}
-          priority
-        />
-      </a>
+      <Logo />
       <Card>
         <CardHeader>
           <CardTitle>Login to your account</CardTitle>
