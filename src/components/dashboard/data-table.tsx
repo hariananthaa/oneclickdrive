@@ -34,14 +34,9 @@ import {
 } from "@/components/ui/select";
 import {
   ArrowUpDown,
-  ChevronDown,
   Search,
-  Filter,
   RefreshCw,
-  MoreHorizontal,
-  Eye,
   Edit,
-  Trash2,
   Star,
   MapPin,
   Calendar,
@@ -50,14 +45,15 @@ import {
   ChevronsLeft,
   ChevronsRight,
 } from "lucide-react";
-import { Car } from "@/lib/database";
+import type { Car } from "@/lib/database";
+import { EditCarDialog } from "@/components/dashboard/edit-car-dialog";
 
-interface TanStackCarsTableProps {
+interface CarsTableProps {
   data: Car[];
   onRefresh?: () => void;
 }
 
-export function TanStackCarsTable({ data, onRefresh }: TanStackCarsTableProps) {
+export function CarsTable({ data, onRefresh }: CarsTableProps) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -65,6 +61,10 @@ export function TanStackCarsTable({ data, onRefresh }: TanStackCarsTableProps) {
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
   const [globalFilter, setGlobalFilter] = React.useState("");
+
+  // Edit dialog state
+  const [editDialogOpen, setEditDialogOpen] = React.useState(false);
+  const [selectedCar, setSelectedCar] = React.useState<Car | null>(null);
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat("en-AE", {
@@ -85,6 +85,11 @@ export function TanStackCarsTable({ data, onRefresh }: TanStackCarsTableProps) {
       default:
         return "outline";
     }
+  };
+
+  const handleEditClick = (car: Car) => {
+    setSelectedCar(car);
+    setEditDialogOpen(true);
   };
 
   const columns: ColumnDef<Car>[] = [
@@ -280,8 +285,16 @@ export function TanStackCarsTable({ data, onRefresh }: TanStackCarsTableProps) {
       id: "actions",
       header: "Actions",
       cell: ({ row }) => (
-        <div className="flex justify-center hover:text-primary">
-          <Edit className="mr-2 h-4 w-4 " />
+        <div className="flex justify-center">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => handleEditClick(row.original)}
+            className="h-8 w-8 p-0 hover:text-primary"
+          >
+            <Edit className="h-4 w-4" />
+            <span className="sr-only">Edit car</span>
+          </Button>
         </div>
       ),
       enableHiding: false,
@@ -352,7 +365,6 @@ export function TanStackCarsTable({ data, onRefresh }: TanStackCarsTableProps) {
         </div>
       </div>
 
-      {/* Table */}
       <div className="flex-1 min-h-0 rounded-md border">
         <div className="h-full overflow-auto relative">
           <Table>
@@ -466,6 +478,14 @@ export function TanStackCarsTable({ data, onRefresh }: TanStackCarsTableProps) {
           </Button>
         </div>
       </div>
+
+      {/* Edit Dialog */}
+      <EditCarDialog
+        car={selectedCar}
+        open={editDialogOpen}
+        onOpenChange={setEditDialogOpen}
+        onSuccess={onRefresh}
+      />
     </div>
   );
 }

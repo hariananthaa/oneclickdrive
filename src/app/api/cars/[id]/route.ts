@@ -13,8 +13,7 @@ export async function GET(_: NextRequest, { params }: RouteParams) {
     const { id } = await params;
     const carId = Number.parseInt(id);
 
-    console.log(typeof carId);
-
+    // console.log(typeof carId);
     if (isNaN(carId)) {
       return NextResponse.json({ error: "Invalid car ID" }, { status: 400 });
     }
@@ -50,27 +49,36 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
     const { id } = await params;
     const carId = Number.parseInt(id);
 
+    // console.log(isNaN(carId));
+
     if (isNaN(carId)) {
       return NextResponse.json({ error: "Invalid car ID" }, { status: 400 });
     }
 
     // Check if car exists
-    const existingCar = db
+    const existingCar: any = db
       .prepare("SELECT * FROM cars WHERE id = ?")
       .get(carId);
+
+    // console.log(existingCar);
+
     if (!existingCar) {
       return NextResponse.json({ error: "Car not found" }, { status: 404 });
     }
-    console.log(existingCar);
 
     const body = await request.json();
 
-    console.log(body);
+    // console.log(body);
+
+    let updatedBody = {
+      ...body,
+      imageUrl: existingCar.imageUrl,
+    };
 
     // Validation
-    const validationResult = CarSchema.safeParse(body);
+    const validationResult = CarSchema.safeParse(updatedBody);
 
-    console.log(validationResult);
+    // console.log(validationResult);
 
     if (!validationResult.success) {
       return NextResponse.json(
@@ -109,7 +117,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
       carId
     );
 
-    // console.log(result);
+    console.log(result);
 
     if (result.changes === 0) {
       return NextResponse.json({ error: "No changes made" }, { status: 400 });

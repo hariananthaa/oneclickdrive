@@ -1,10 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
-import { Plus, Car as CarIcon } from "lucide-react";
-import { Car } from "@/lib/database";
-import { TanStackCarsTable } from "@/components/dashboard/data-table";
+import { CarIcon } from "lucide-react";
+import type { Car } from "@/lib/database";
+import { CarsTable } from "@/components/dashboard/data-table";
 
 interface CarsResponse {
   cars: Car[];
@@ -25,14 +24,23 @@ export default function CarsPage() {
   }, []);
 
   const fetchCars = async () => {
+    console.log("Fetching cars...");
     setLoading(true);
     try {
-      const response = await fetch("/api/cars?limit=100");
+      // Add timestamp to prevent caching
+      const response = await fetch(`/api/cars?limit=100&t=${Date.now()}`, {
+        cache: "no-store",
+        headers: {
+          "Cache-Control": "no-cache",
+        },
+      });
+
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
       const result: CarsResponse = await response.json();
+      console.log("Fetched cars:", result.cars.length);
       setData(result.cars);
     } catch (error) {
       console.error("Failed to fetch cars:", error);
@@ -69,7 +77,7 @@ export default function CarsPage() {
 
       {/* TanStack Table */}
       <div className="flex-1 min-h-0">
-        <TanStackCarsTable data={data} onRefresh={fetchCars} />
+        <CarsTable data={data} onRefresh={fetchCars} />
       </div>
     </div>
   );
