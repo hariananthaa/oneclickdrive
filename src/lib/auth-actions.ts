@@ -95,6 +95,7 @@ export async function getSession(): Promise<User | null> {
       };
     }
   } catch (error) {
+    console.log(error);
     return null;
   }
 
