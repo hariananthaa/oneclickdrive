@@ -1,7 +1,5 @@
 import {
-  BarChart3,
   Car,
-  FileText,
   LayoutDashboard,
   LogOut,
   Menu,
@@ -33,16 +31,6 @@ const navigation = [
     name: "Users",
     href: "/dashboard/users",
     icon: Users,
-  },
-  {
-    name: "Analytics",
-    href: "/dashboard/analytics",
-    icon: BarChart3,
-  },
-  {
-    name: "Reports",
-    href: "/dashboard/reports",
-    icon: FileText,
   },
   {
     name: "Settings",
@@ -97,7 +85,7 @@ function SidebarContent() {
   );
 }
 
-function MobileSidebarTrigger() {
+function MobileSidebar() {
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -124,4 +112,4 @@ export function Sidebar() {
   );
 }
 
-export { MobileSidebarTrigger };
+export { MobileSidebar };

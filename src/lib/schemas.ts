@@ -5,6 +5,7 @@ export const editCarSchema = z.object({
   title: z.string().min(1, "Title is required"),
   brand: z.string().min(1, "Brand is required"),
   model: z.string().min(1, "Model is required"),
+  imageUrl: z.string().url("Must be a valid URL"),
   year: z
     .number()
     .min(1900, "Invalid year")

@@ -1,4 +1,4 @@
-import { MobileSidebarTrigger, Sidebar } from "@/components/dashboard/sidebar";
+import { MobileSidebar, Sidebar } from "@/components/dashboard/sidebar";
 import type React from "react";
 
 export default function DashboardLayout({
@@ -17,23 +17,21 @@ export default function DashboardLayout({
         <div className="flex h-16 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8 dark:border-gray-800 dark:bg-gray-900 flex-shrink-0">
           <div className="flex flex-1 items-center gap-x-4 self-stretch lg:gap-x-6">
             <div className="flex items-center gap-x-4 lg:gap-x-6">
-              {/* Mobile sidebar trigger is already included in the Sidebar component */}
               <div className="md:hidden">
-                <MobileSidebarTrigger />
+                <MobileSidebar />
               </div>
               <div className="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-200 dark:lg:bg-gray-800" />
             </div>
 
             <div className="flex flex-1 justify-end">
               <div className="flex items-center gap-x-4 lg:gap-x-6">
-                {/* Header content can go here */}
                 <div className="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-200 dark:lg:bg-gray-800" />
               </div>
             </div>
           </div>
         </div>
 
-        <main className="flex-1 min-h-0 w-full">{children}</main>
+        <main className="flex-1 min-h-0 w-full p-4">{children}</main>
       </div>
     </div>
   );
