@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useActionState } from "react";
 import { loginAction } from "@/lib/auth-actions";
-import Logo from "./logo";
+import Logo from "../logo";
 
 export function LoginForm({
   className,
@@ -61,7 +61,7 @@ export function LoginForm({
                   <Label htmlFor="password">Password</Label>
                   <a
                     href="#"
-                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline hover:text-primary"
+                    className="ml-auto inline-block text-xs underline-offset-4 hover:underline hover:text-primary"
                   >
                     Forgot your password?
                   </a>

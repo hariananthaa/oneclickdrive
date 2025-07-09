@@ -1,6 +1,8 @@
+"use client";
+import { withProtectedRoute } from "@/components/auth/with-auth";
 import { CarsTable } from "@/components/dashboard/data-table";
 
-export default function CarsPage() {
+function CarsPage() {
   return (
     <div className="container mx-auto">
       <div className="flex items-center justify-between mb-6">
@@ -16,3 +18,5 @@ export default function CarsPage() {
     </div>
   );
 }
+
+export default withProtectedRoute(CarsPage);

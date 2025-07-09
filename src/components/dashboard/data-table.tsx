@@ -172,8 +172,6 @@ export function CarsTable() {
     );
   }
 
-  console.log(editDialogOpen);
-
   return (
     <div className="h-full flex flex-col space-y-4">
       {/* Header with filters */}
