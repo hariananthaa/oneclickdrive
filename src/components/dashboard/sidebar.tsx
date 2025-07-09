@@ -1,11 +1,4 @@
-import {
-  Car,
-  LayoutDashboard,
-  LogOut,
-  Menu,
-  Settings,
-  Users,
-} from "lucide-react";
+import { Car, LayoutDashboard, Menu, Settings, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -15,7 +8,6 @@ import {
 } from "@/components/ui/sheet";
 import Logo from "../logo";
 import { NavLink } from "./nav-link";
-import { getSession, logoutAction } from "@/lib/auth-actions";
 import LogoutButton from "./logout-button";
 import UserSection from "./user-section";
 

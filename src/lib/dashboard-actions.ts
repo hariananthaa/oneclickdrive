@@ -1,6 +1,5 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
 import { updateCar as updateCarInDb, CarSchema } from "@/lib/database";
 
 interface ActionState {

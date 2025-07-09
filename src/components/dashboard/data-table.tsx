@@ -108,7 +108,7 @@ export function CarsTable() {
     if (currentPage !== 1) {
       setCurrentPage(1);
     }
-  }, [debouncedSearch, statusFilter]);
+  }, [debouncedSearch, statusFilter, currentPage]);
 
   const formatPrice = (price: number | string) => {
     const numPrice =
