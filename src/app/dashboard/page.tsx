@@ -1,5 +1,9 @@
+"use client";
+import { withProtectedRoute } from "@/components/auth/with-auth";
 import CarsPage from "./cars/page";
 
-export default function DashboardPage() {
+function DashboardPage() {
   return <CarsPage />;
 }
+
+export default withProtectedRoute(DashboardPage);

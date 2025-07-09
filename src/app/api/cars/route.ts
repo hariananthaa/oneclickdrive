@@ -1,5 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server";
-import { Car, getDatabase } from "../../../lib/database";
+import { getAllCars } from "@/lib/database";
+import type { Car } from "@/lib/database";
 
 interface CarsResponse {
   cars: Car[];
@@ -13,56 +14,46 @@ interface CarsResponse {
 
 export async function GET(request: NextRequest) {
   try {
-    const db = getDatabase();
     const { searchParams } = new URL(request.url);
 
-    const page = searchParams.get("page") || "1";
-    const limit = searchParams.get("limit") || "10";
+    // Get pagination parameters from query
+    const page = Math.max(1, Number.parseInt(searchParams.get("page") || "1"));
+    const limit = Math.min(
+      100,
+      Math.max(1, Number.parseInt(searchParams.get("limit") || "10"))
+    );
 
-    // console.log(page, limit);
+    const search = searchParams.get("search") || "";
+    const status = searchParams.get("status") || "";
 
-    // Validate pagination parameters
-    const pageNum = Math.max(1, Number.parseInt(page) || 1);
-    const limitNum = Math.min(50, Math.max(1, Number.parseInt(limit) || 10));
-    const offset = (pageNum - 1) * limitNum;
+    console.log("API Request params:", {
+      page,
+      limit,
+      search,
+      status,
+    });
 
-    // console.log(page, limit, status);
-
-    let query = "SELECT * FROM cars";
-    const countQuery = "SELECT COUNT(*) as total FROM cars";
-
-    // Add ordering and pagination
-    query += " ORDER BY createdAt DESC LIMIT ? OFFSET ?";
-    const queryParams = [limitNum, offset];
-
-    // Execute queries
-    const cars = db.prepare(query).all(...queryParams);
-
-    // console.log("Cars from db: ", cars);
-
-    const totalResult = db.prepare(countQuery).get() as {
-      total: number;
-    };
-    const total = totalResult.total;
-
-    // Format the result
-    const processedCars = cars.map((car: any) => ({
-      ...car,
-      isPremium: Boolean(car.isPremium),
-      availableForRent: Boolean(car.availableForRent),
-    }));
-
-    // console.log("processed: ", processedCars);
+    const result = await getAllCars({
+      page,
+      limit,
+      search,
+      status,
+    });
 
     const response: CarsResponse = {
-      cars: processedCars,
+      cars: result.cars,
       pagination: {
-        page: pageNum,
-        limit: limitNum,
-        total,
-        totalPages: Math.ceil(total / limitNum),
+        page: result.pagination.page,
+        limit: result.pagination.limit,
+        total: result.pagination.total,
+        totalPages: result.pagination.totalPages,
       },
     };
+
+    console.log("API Response:", {
+      carsCount: response.cars.length,
+      pagination: response.pagination,
+    });
 
     return NextResponse.json(response);
   } catch (error) {

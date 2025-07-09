@@ -1,13 +1,4 @@
-import {
-  BarChart3,
-  Car,
-  FileText,
-  LayoutDashboard,
-  LogOut,
-  Menu,
-  Settings,
-  Users,
-} from "lucide-react";
+import { Car, LayoutDashboard, Menu, Settings, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -17,6 +8,8 @@ import {
 } from "@/components/ui/sheet";
 import Logo from "../logo";
 import { NavLink } from "./nav-link";
+import LogoutButton from "./logout-button";
+import UserSection from "./user-section";
 
 const navigation = [
   {
@@ -33,16 +26,6 @@ const navigation = [
     name: "Users",
     href: "/dashboard/users",
     icon: Users,
-  },
-  {
-    name: "Analytics",
-    href: "/dashboard/analytics",
-    icon: BarChart3,
-  },
-  {
-    name: "Reports",
-    href: "/dashboard/reports",
-    icon: FileText,
   },
   {
     name: "Settings",
@@ -73,31 +56,15 @@ function SidebarContent() {
         </nav>
       </div>
 
-      {/* User section */}
       <div className="border-t p-4">
-        <div className="flex items-center gap-3 mb-3">
-          <div className="h-8 w-8 rounded-full bg-primary flex items-center justify-center">
-            <span className="text-sm font-medium text-primary-foreground">
-              A
-            </span>
-          </div>
-          <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium">Admin User</p>
-            <p className="text-xs text-muted-foreground truncate">
-              admin@example.com
-            </p>
-          </div>
-        </div>
-        <Button variant="ghost" size="sm" className="w-full justify-start">
-          <LogOut className="h-4 w-4 mr-2" />
-          Logout
-        </Button>
+        <UserSection />
+        <LogoutButton />
       </div>
     </div>
   );
 }
 
-function MobileSidebarTrigger() {
+function MobileSidebar() {
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -124,4 +91,4 @@ export function Sidebar() {
   );
 }
 
-export { MobileSidebarTrigger };
+export { MobileSidebar };

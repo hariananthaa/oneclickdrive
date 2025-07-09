@@ -1,4 +1,4 @@
-export const sampleCars = [
+const sampleCars = [
   {
     title: "Lamborghini Urus Mansory Edition",
     brand: "Lamborghini",
@@ -846,3 +846,5 @@ export const sampleCars = [
     status: "rejected",
   },
 ];
+
+export default sampleCars;

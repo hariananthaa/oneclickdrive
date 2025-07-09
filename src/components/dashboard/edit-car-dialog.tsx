@@ -1,5 +1,6 @@
 "use client";
-import { useActionState, useEffect } from "react";
+
+import { useActionState, useEffect, useRef } from "react";
 import Image from "next/image";
 import type { Car } from "@/lib/database";
 import {
@@ -37,10 +38,17 @@ export function EditCarDialog({
   onSuccess,
 }: EditCarDialogProps) {
   const [state, action, isPending] = useActionState(updateCar, null);
+  const hasHandledSuccess = useRef(false);
 
-  // Handle successful update
   useEffect(() => {
-    if (state?.success && open) {
+    if (open) {
+      hasHandledSuccess.current = false;
+    }
+  }, [open]);
+
+  useEffect(() => {
+    if (state?.success && open && !hasHandledSuccess.current) {
+      hasHandledSuccess.current = true;
       if (onSuccess) {
         onSuccess();
         console.log("onSuccess callback called");
@@ -63,16 +71,25 @@ export function EditCarDialog({
             Update the car information below. The car image cannot be changed.
           </DialogDescription>
         </DialogHeader>
-
         <form action={action} className="space-y-6">
           <input type="hidden" name="id" value={car.id} />
 
-          {/* Car Image - Display Only */}
+          {/* Car Image */}
           <div className="space-y-2">
-            <Label>Car Image</Label>
+            <Label htmlFor="imageUrl">Image</Label>
+            <Input
+              id="imageUrl"
+              name="imageUrl"
+              type="url"
+              defaultValue={car.imageUrl}
+              required
+              className="hidden"
+            />
             <div className="relative h-32 w-48 overflow-hidden rounded-md border">
               <Image
-                src={car.imageUrl || "/placeholder.svg?height=128&width=192"}
+                src={
+                  car.imageUrl || "/images/sample_car.svg?height=128&width=192"
+                }
                 alt={car.title}
                 fill
                 className="object-cover"
@@ -90,7 +107,6 @@ export function EditCarDialog({
                 required
               />
             </div>
-
             <div className="space-y-2">
               <Label htmlFor="brand">Brand *</Label>
               <Input
@@ -100,7 +116,6 @@ export function EditCarDialog({
                 required
               />
             </div>
-
             <div className="space-y-2">
               <Label htmlFor="model">Model *</Label>
               <Input
@@ -110,7 +125,6 @@ export function EditCarDialog({
                 required
               />
             </div>
-
             <div className="space-y-2">
               <Label htmlFor="year">Year *</Label>
               <Input
@@ -123,7 +137,6 @@ export function EditCarDialog({
                 required
               />
             </div>
-
             <div className="space-y-2">
               <Label htmlFor="category">Category *</Label>
               <Select name="category" defaultValue={car.category}>
@@ -141,7 +154,6 @@ export function EditCarDialog({
                 </SelectContent>
               </Select>
             </div>
-
             <div className="space-y-2">
               <Label htmlFor="dailyRate">Daily Rate (AED) *</Label>
               <Input
@@ -154,7 +166,6 @@ export function EditCarDialog({
                 required
               />
             </div>
-
             <div className="space-y-2">
               <Label htmlFor="monthlyRate">Monthly Rate (AED) *</Label>
               <Input
@@ -167,7 +178,6 @@ export function EditCarDialog({
                 required
               />
             </div>
-
             <div className="space-y-2">
               <Label htmlFor="location">Location *</Label>
               <Input
@@ -177,7 +187,6 @@ export function EditCarDialog({
                 required
               />
             </div>
-
             <div className="space-y-2">
               <Label htmlFor="status">Status</Label>
               <Select name="status" defaultValue={car.status}>
@@ -220,7 +229,6 @@ export function EditCarDialog({
                 value={car.isPremium ? "true" : "false"}
               />
             </div>
-
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label htmlFor="availableForRent">Available for Rent</Label>
