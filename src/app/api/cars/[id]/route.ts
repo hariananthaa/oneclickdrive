@@ -70,7 +70,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
 
     // console.log(body);
 
-    let updatedBody = {
+    const updatedBody = {
       ...body,
       imageUrl: existingCar.imageUrl,
     };

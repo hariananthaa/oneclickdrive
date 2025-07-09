@@ -94,7 +94,7 @@ export async function getSession(): Promise<User | null> {
         name: sessionData.name,
       };
     }
-  } catch (error) {
+  } catch (_) {
     return null;
   }
 

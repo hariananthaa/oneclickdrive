@@ -29,7 +29,7 @@ export async function GET(request: NextRequest) {
     // console.log(page, limit, status);
 
     let query = "SELECT * FROM cars";
-    let countQuery = "SELECT COUNT(*) as total FROM cars";
+    const countQuery = "SELECT COUNT(*) as total FROM cars";
 
     // Add ordering and pagination
     query += " ORDER BY createdAt DESC LIMIT ? OFFSET ?";
