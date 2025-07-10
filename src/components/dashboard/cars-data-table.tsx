@@ -33,6 +33,7 @@ import {
   ChevronsRight,
   Loader2,
 } from "lucide-react";
+import { EditCarDialog } from "./edit-car-dialog";
 
 interface Car {
   id: number;
@@ -79,6 +80,9 @@ export function CarsDataTable() {
   const [searchInput, setSearchInput] = useState(searchQuery);
 
   const [debounceSearch, setDebounceSearch] = useState(searchQuery);
+
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [selectedCar, setSelectedCar] = useState<Car | null>(null);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -202,6 +206,15 @@ export function CarsDataTable() {
   };
 
   const handleRefresh = () => {
+    fetchCars();
+  };
+
+  const handleEditClick = (car: Car) => {
+    setSelectedCar(car);
+    setEditDialogOpen(true);
+  };
+
+  const handleEditSuccess = () => {
     fetchCars();
   };
 
@@ -374,9 +387,17 @@ export function CarsDataTable() {
                         </div>
                       </TableCell>
                       <TableCell>
-                        <Button variant="ghost" size="sm">
-                          <Edit className="h-4 w-4" />
-                        </Button>
+                        <div className="flex justify-center">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => handleEditClick(car)}
+                            className="h-8 w-8 p-0 hover:text-primary"
+                          >
+                            <Edit className="h-4 w-4" />
+                            <span className="sr-only">Edit car</span>
+                          </Button>
+                        </div>
                       </TableCell>
                     </TableRow>
                   ))
@@ -454,6 +475,13 @@ export function CarsDataTable() {
           </Button>
         </div>
       </div>
+
+      <EditCarDialog
+        car={selectedCar}
+        open={editDialogOpen}
+        onOpenChange={setEditDialogOpen}
+        onSuccess={handleEditSuccess}
+      />
     </div>
   );
 }
