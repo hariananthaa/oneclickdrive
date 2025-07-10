@@ -25,7 +25,7 @@ import { Loader2 } from "lucide-react";
 import { updateCar } from "@/lib/dashboard-actions";
 
 interface EditCarDialogProps {
-  car: Car | null;
+  car: any | null;
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onSuccess?: () => void;
