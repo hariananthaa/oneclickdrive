@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useEffect, useRef } from "react";
+import { useActionState, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import {
   Dialog,
@@ -38,19 +38,22 @@ export function EditCarDialog({
 }: EditCarDialogProps) {
   const [state, action, isPending] = useActionState(updateCar, null);
   const hasHandledSuccess = useRef(false);
-  const lastCarId = useRef<number | null>(null);
 
-  // Reset state
+  const [isPremium, setIsPremium] = useState(false);
+  const [availableForRent, setAvailableForRent] = useState(false);
+
   useEffect(() => {
-    if (open && car) {
-      hasHandledSuccess.current = false;
-      if (lastCarId.current !== car.id) {
-        lastCarId.current = car.id;
-        const dummyForm = new FormData();
-        dummyForm.append("reset", "true");
-      }
+    if (car) {
+      setIsPremium(car.isPremium);
+      setAvailableForRent(car.availableForRent);
     }
-  }, [open, car]);
+  }, [car]);
+
+  useEffect(() => {
+    if (open) {
+      hasHandledSuccess.current = false;
+    }
+  }, [open]);
 
   useEffect(() => {
     if (state?.success && open && !hasHandledSuccess.current) {
@@ -217,20 +220,13 @@ export function EditCarDialog({
               </div>
               <Switch
                 id="isPremium"
-                name="isPremium"
-                defaultChecked={car.isPremium}
-                value={car.isPremium ? "true" : "false"}
-                onCheckedChange={(checked) => {
-                  const input = document.querySelector(
-                    'input[name="isPremium"]'
-                  ) as HTMLInputElement;
-                  if (input) input.value = checked ? "true" : "false";
-                }}
+                checked={isPremium}
+                onCheckedChange={setIsPremium}
               />
               <input
                 type="hidden"
                 name="isPremium"
-                value={car.isPremium ? "true" : "false"}
+                value={isPremium ? "true" : "false"}
               />
             </div>
             <div className="flex items-center justify-between">
@@ -242,25 +238,18 @@ export function EditCarDialog({
               </div>
               <Switch
                 id="availableForRent"
-                name="availableForRent"
-                defaultChecked={car.availableForRent}
-                value={car.availableForRent ? "true" : "false"}
-                onCheckedChange={(checked) => {
-                  const input = document.querySelector(
-                    'input[name="availableForRent"]'
-                  ) as HTMLInputElement;
-                  if (input) input.value = checked ? "true" : "false";
-                }}
+                checked={availableForRent}
+                onCheckedChange={setAvailableForRent}
               />
               <input
                 type="hidden"
                 name="availableForRent"
-                value={car.availableForRent ? "true" : "false"}
+                value={availableForRent ? "true" : "false"}
               />
             </div>
           </div>
 
-          {state?.message && !(state.success && !hasHandledSuccess.current) && (
+          {state?.message && (
             <div
               className={`p-3 rounded-md text-sm ${
                 state.success
@@ -272,7 +261,6 @@ export function EditCarDialog({
             </div>
           )}
 
-          {/* Action Buttons */}
           <div className="flex justify-end gap-3 pt-4">
             <Button
               type="button"
