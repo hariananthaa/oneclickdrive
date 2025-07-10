@@ -271,6 +271,7 @@ This application is deployed on Vercel with the following setup:
 3. **Neon Integration**: Database automatically connected via Vercel integration
 
 **Live Application**: [Live Demo](https://oneclickdrive.vercel.app/)
+**Live Application Alternative**: [Live Demo](https://oneclickdrive-git-dev-hariananthaas-projects.vercel.app/)
 
 ## 📝 Scripts
 
