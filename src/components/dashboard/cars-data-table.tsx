@@ -1,6 +1,6 @@
 "use client";
-
-import * as React from "react";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -33,9 +33,23 @@ import {
   ChevronsRight,
   Loader2,
 } from "lucide-react";
-import type { Car } from "@/lib/database";
-import { EditCarDialog } from "@/components/dashboard/edit-car-dialog";
-import { useCallback, useEffect, useState } from "react";
+
+interface Car {
+  id: number;
+  title: string;
+  brand: string;
+  model: string;
+  year: number;
+  category: string;
+  dailyRate: number;
+  monthlyRate: number;
+  location: string;
+  imageUrl: string;
+  isPremium: boolean;
+  availableForRent: boolean;
+  status: string;
+  createdAt: string;
+}
 
 interface CarsResponse {
   cars: Car[];
@@ -47,29 +61,61 @@ interface CarsResponse {
   };
 }
 
-export function CarsTable() {
+export function CarsDataTable() {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
   const [data, setData] = useState<CarsResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [statusFilter, setStatusFilter] = useState("all");
+  const currentPage = Number(searchParams.get("page")) || 1;
+  const pageSize = Number(searchParams.get("limit")) || 10;
+  const searchQuery = searchParams.get("search") || "";
+  const statusFilter = searchParams.get("status") || "all";
 
-  const [editDialogOpen, setEditDialogOpen] = useState(false);
-  const [selectedCar, setSelectedCar] = useState<Car | null>(null);
+  // Local state for input (for debouncing)
+  const [searchInput, setSearchInput] = useState(searchQuery);
 
-  // Debounced search to avoid frequent rendering and triggering
-  const [debouncedSearch, setDebouncedSearch] = useState("");
+  const [debounceSearch, setDebounceSearch] = useState(searchQuery);
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setDebouncedSearch(searchQuery);
+      setDebounceSearch(searchInput);
     }, 500);
 
     return () => clearTimeout(timer);
-  }, [searchQuery]);
+  }, [searchInput]);
+
+  // Function to create query string while preserving existing params
+  const createQueryString = useCallback(
+    (updates: Record<string, string | number>) => {
+      const params = new URLSearchParams(searchParams.toString());
+
+      Object.entries(updates).forEach(([key, value]) => {
+        if (value === "" || value === "all") {
+          params.delete(key);
+        } else {
+          params.set(key, value.toString());
+        }
+      });
+
+      return params.toString();
+    },
+    [searchParams]
+  );
+
+  // Update URL when debounced search changes
+  useEffect(() => {
+    if (debounceSearch !== searchQuery) {
+      const queryString = createQueryString({
+        search: debounceSearch,
+        page: 1, // Reset to first page when searching
+      });
+      router.push(pathname + (queryString ? "?" + queryString : ""));
+    }
+  }, [debounceSearch, searchQuery, createQueryString, router, pathname]);
 
   const fetchCars = useCallback(async () => {
     setLoading(true);
@@ -79,7 +125,7 @@ export function CarsTable() {
       const params = new URLSearchParams({
         page: currentPage.toString(),
         limit: pageSize.toString(),
-        ...(debouncedSearch && { search: debouncedSearch }),
+        ...(debounceSearch && { search: debounceSearch }),
         ...(statusFilter !== "all" && { status: statusFilter }),
       });
 
@@ -97,18 +143,11 @@ export function CarsTable() {
     } finally {
       setLoading(false);
     }
-  }, [currentPage, pageSize, debouncedSearch, statusFilter]);
+  }, [currentPage, pageSize, debounceSearch, statusFilter]);
 
   useEffect(() => {
     fetchCars();
   }, [fetchCars]);
-
-  // Reseting while filter change
-  useEffect(() => {
-    if (currentPage !== 1) {
-      setCurrentPage(1);
-    }
-  }, [debouncedSearch, statusFilter, currentPage]);
 
   const formatPrice = (price: number | string) => {
     const numPrice =
@@ -133,33 +172,45 @@ export function CarsTable() {
     }
   };
 
-  const handleEditClick = (car: Car) => {
-    setSelectedCar(car);
-    setEditDialogOpen(true);
+  // URL update functions
+  const updatePageSize = (newPageSize: string) => {
+    const queryString = createQueryString({
+      limit: newPageSize,
+      page: 1, // Reset to first page when changing page size
+    });
+    router.push(pathname + (queryString ? "?" + queryString : ""));
+  };
+
+  const updateStatusFilter = (newStatus: string) => {
+    const queryString = createQueryString({
+      status: newStatus,
+      page: 1, // Reset to first page when changing filter
+    });
+    router.push(pathname + (queryString ? "?" + queryString : ""));
+  };
+
+  const updatePage = (newPage: number) => {
+    const queryString = createQueryString({
+      page: newPage,
+    });
+    router.push(pathname + (queryString ? "?" + queryString : ""));
+  };
+
+  const resetFilters = () => {
+    setSearchInput("");
+    router.push(pathname);
   };
 
   const handleRefresh = () => {
     fetchCars();
   };
 
-  const handleEditSuccess = () => {
-    fetchCars();
-  };
-
-  // Pagination handling
-  const goToFirstPage = () => setCurrentPage(1);
-  const goToPreviousPage = () =>
-    setCurrentPage((prev) => Math.max(1, prev - 1));
+  // Pagination handlers
+  const goToFirstPage = () => updatePage(1);
+  const goToPreviousPage = () => updatePage(Math.max(1, currentPage - 1));
   const goToNextPage = () =>
-    setCurrentPage((prev) =>
-      data ? Math.min(data.pagination.totalPages, prev + 1) : prev
-    );
-  const goToLastPage = () => setCurrentPage(data?.pagination.totalPages || 1);
-
-  const handlePageSizeChange = (newPageSize: string) => {
-    setPageSize(Number(newPageSize));
-    setCurrentPage(1);
-  };
+    updatePage(Math.min(data?.pagination.totalPages || 1, currentPage + 1));
+  const goToLastPage = () => updatePage(data?.pagination.totalPages || 1);
 
   if (error) {
     return (
@@ -181,13 +232,13 @@ export function CarsTable() {
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <Input
               placeholder="Search cars..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
               className="pl-10 w-full sm:w-64"
             />
           </div>
 
-          <Select value={statusFilter} onValueChange={setStatusFilter}>
+          <Select value={statusFilter} onValueChange={updateStatusFilter}>
             <SelectTrigger className="w-full sm:w-32">
               <SelectValue placeholder="All Status" />
             </SelectTrigger>
@@ -198,13 +249,14 @@ export function CarsTable() {
               <SelectItem value="rejected">Rejected</SelectItem>
             </SelectContent>
           </Select>
+
+          <Button variant="outline" onClick={resetFilters} disabled={loading}>
+            Reset
+          </Button>
         </div>
 
         <div className="flex justify-between items-center gap-4 w-full md:w-max">
-          <Select
-            value={pageSize.toString()}
-            onValueChange={handlePageSizeChange}
-          >
+          <Select value={pageSize.toString()} onValueChange={updatePageSize}>
             <SelectTrigger className="w-32">
               <SelectValue />
             </SelectTrigger>
@@ -263,7 +315,7 @@ export function CarsTable() {
                           <Image
                             src={
                               car.imageUrl ||
-                              "/images/sample_car.svg?height=48&width=64"
+                              "/placeholder.svg?height=48&width=64"
                             }
                             alt={car.title}
                             fill
@@ -272,29 +324,21 @@ export function CarsTable() {
                         </div>
                       </TableCell>
                       <TableCell>
-                        <div className="space-y-1">
-                          <div className="font-medium text-sm leading-tight">
-                            {car.title}
-                          </div>
-                          <div className="text-xs text-muted-foreground">
-                            {car.brand} | {car.model}
-                          </div>
+                        <div className="font-medium">{car.title}</div>
+                        <div className="text-sm text-muted-foreground">
+                          {car.brand} {car.model}
                         </div>
                       </TableCell>
-                      <TableCell className="text-center">{car.year}</TableCell>
+                      <TableCell>{car.year}</TableCell>
                       <TableCell>
                         <Badge variant="outline">{car.category}</Badge>
                       </TableCell>
-                      <TableCell className="font-medium text-orange-600">
-                        {formatPrice(car.dailyRate)}
-                      </TableCell>
-                      <TableCell className="font-medium">
-                        {formatPrice(car.monthlyRate)}
-                      </TableCell>
+                      <TableCell>{formatPrice(car.dailyRate)}</TableCell>
+                      <TableCell>{formatPrice(car.monthlyRate)}</TableCell>
                       <TableCell>
-                        <div className="flex items-center gap-1 text-sm max-w-[140px]">
-                          <MapPin className="h-3 w-3 flex-shrink-0" />
-                          <span className="truncate">{car.location}</span>
+                        <div className="flex items-center gap-1">
+                          <MapPin className="h-3 w-3" />
+                          {car.location}
                         </div>
                       </TableCell>
                       <TableCell>
@@ -302,41 +346,30 @@ export function CarsTable() {
                           {car.status}
                         </Badge>
                       </TableCell>
-                      <TableCell className="text-center">
-                        {car.isPremium ? (
-                          <Star className="h-4 w-4 text-yellow-500 fill-current mx-auto" />
-                        ) : (
-                          <div className="h-4 w-4 mx-auto" />
+                      <TableCell>
+                        {car.isPremium && (
+                          <Star className="h-4 w-4 text-yellow-500" />
                         )}
                       </TableCell>
-                      <TableCell className="text-center">
+                      <TableCell>
                         <Badge
                           variant={
                             car.availableForRent ? "default" : "secondary"
                           }
-                          className="text-xs"
                         >
                           {car.availableForRent ? "Yes" : "No"}
                         </Badge>
                       </TableCell>
                       <TableCell>
-                        <div className="flex items-center gap-1 text-sm">
+                        <div className="flex items-center gap-1">
                           <Calendar className="h-3 w-3" />
-                          {new Date(car.createdAt || "").toLocaleDateString()}
+                          {new Date(car.createdAt).toLocaleDateString()}
                         </div>
                       </TableCell>
                       <TableCell>
-                        <div className="flex justify-center">
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => handleEditClick(car)}
-                            className="h-8 w-8 p-0 hover:text-primary"
-                          >
-                            <Edit className="h-4 w-4" />
-                            <span className="sr-only">Edit car</span>
-                          </Button>
-                        </div>
+                        <Button variant="ghost" size="sm">
+                          <Edit className="h-4 w-4" />
+                        </Button>
                       </TableCell>
                     </TableRow>
                   ))
@@ -414,13 +447,6 @@ export function CarsTable() {
           </Button>
         </div>
       </div>
-
-      <EditCarDialog
-        car={selectedCar}
-        open={editDialogOpen}
-        onOpenChange={setEditDialogOpen}
-        onSuccess={handleEditSuccess}
-      />
     </div>
   );
 }

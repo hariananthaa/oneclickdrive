@@ -3,15 +3,14 @@ import { neon } from "@neondatabase/serverless";
 import sampleCars from "./data.js";
 
 // Load environment variables
-config({ path: ".env.development.local" });
 config({ path: ".env.local" });
 
 async function seedDatabase() {
-  console.log("🔍 Checking DATABASE_URL...");
+  console.log("Checking DATABASE_URL...");
 
   if (!process.env.DATABASE_URL) {
-    console.log("❌ DATABASE_URL not found");
-    console.log("💡 Run: vercel env pull .env.development.local");
+    console.log("DATABASE_URL not found");
+    console.log("Run: vercel env pull .env.local");
     return;
   }
 
@@ -59,7 +58,7 @@ async function seedDatabase() {
       }
     }
   } catch (error) {
-    console.log("⚠️  Database setup failed:", error.message);
+    console.log("Database setup failed:", error.message);
   }
 }
 

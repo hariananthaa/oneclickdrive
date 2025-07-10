@@ -13,11 +13,9 @@ import { Label } from "@/components/ui/label";
 import { useActionState } from "react";
 import { loginAction } from "@/lib/auth-actions";
 import Logo from "../logo";
+import { withPublicRoute } from "./with-auth";
 
-export function LoginForm({
-  className,
-  ...props
-}: React.ComponentProps<"div">) {
+function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
   const [state, formAction, isPending] = useActionState(loginAction, undefined);
 
   console.log(state);
@@ -107,3 +105,5 @@ export function LoginForm({
     </div>
   );
 }
+
+export default withPublicRoute(LoginForm);

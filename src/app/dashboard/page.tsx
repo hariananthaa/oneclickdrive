@@ -1,9 +1,5 @@
-"use client";
-import { withProtectedRoute } from "@/components/auth/with-auth";
-import CarsPage from "./cars/page";
+import { redirect } from "next/navigation";
 
-function DashboardPage() {
-  return <CarsPage />;
+export default function HomePage() {
+  redirect("/dashboard/cars");
 }
-
-export default withProtectedRoute(DashboardPage);

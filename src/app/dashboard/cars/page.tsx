@@ -1,6 +1,6 @@
 "use client";
 import { withProtectedRoute } from "@/components/auth/with-auth";
-import { CarsTable } from "@/components/dashboard/data-table";
+import { CarsDataTable } from "@/components/dashboard/cars-data-table";
 
 function CarsPage() {
   return (
@@ -13,7 +13,7 @@ function CarsPage() {
       </div>
 
       <div className="h-[calc(100vh-180px)]">
-        <CarsTable />
+        <CarsDataTable />
       </div>
     </div>
   );
