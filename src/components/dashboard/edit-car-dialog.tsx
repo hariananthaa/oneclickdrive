@@ -88,7 +88,7 @@ export function EditCarDialog({
             <div className="relative h-32 w-48 overflow-hidden rounded-md border">
               <Image
                 src={
-                  car.imageUrl || "/images/sample_car.svg?height=128&width=192"
+                  car.imageUrl || "/images/sample_car.jpg?height=128&width=192"
                 }
                 alt={car.title}
                 fill

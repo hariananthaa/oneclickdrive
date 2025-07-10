@@ -226,36 +226,43 @@ export function CarsDataTable() {
   return (
     <div className="h-full flex flex-col space-y-4">
       {/* Header with filters */}
-      <div className="flex flex-col md:flex-row items-start sm:items-center justify-between gap-4 flex-shrink-0">
-        <div className="flex flex-col sm:flex-row gap-2 w-full">
-          <div className="relative">
+      <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 flex-shrink-0">
+        <div className="flex flex-col sm:flex-row gap-2 xl:w-max w-full">
+          <div className="relative flex w-full">
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <Input
               placeholder="Search cars..."
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
-              className="pl-10 w-full sm:w-64"
+              className="pl-10 w-full sm:w-96 md:w-full xl:w-[500px]"
             />
           </div>
 
-          <Select value={statusFilter} onValueChange={updateStatusFilter}>
-            <SelectTrigger className="w-full sm:w-32">
-              <SelectValue placeholder="All Status" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All Status</SelectItem>
-              <SelectItem value="approved">Approved</SelectItem>
-              <SelectItem value="pending">Pending</SelectItem>
-              <SelectItem value="rejected">Rejected</SelectItem>
-            </SelectContent>
-          </Select>
+          <div className="flex gap-2 w-full md:w-max">
+            <Select value={statusFilter} onValueChange={updateStatusFilter}>
+              <SelectTrigger className="w-full lg:w-32">
+                <SelectValue placeholder="All Status" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Status</SelectItem>
+                <SelectItem value="approved">Approved</SelectItem>
+                <SelectItem value="pending">Pending</SelectItem>
+                <SelectItem value="rejected">Rejected</SelectItem>
+              </SelectContent>
+            </Select>
 
-          <Button variant="outline" onClick={resetFilters} disabled={loading}>
-            Reset
-          </Button>
+            <Button
+              className="w-auto"
+              variant="outline"
+              onClick={resetFilters}
+              disabled={loading}
+            >
+              Reset
+            </Button>
+          </div>
         </div>
 
-        <div className="flex justify-between items-center gap-4 w-full md:w-max">
+        <div className="flex justify-between items-center gap-4 w-full lg:w-max">
           <Select value={pageSize.toString()} onValueChange={updatePageSize}>
             <SelectTrigger className="w-32">
               <SelectValue />
@@ -315,7 +322,7 @@ export function CarsDataTable() {
                           <Image
                             src={
                               car.imageUrl ||
-                              "/placeholder.svg?height=48&width=64"
+                              "/images/sample_car.jpg?height=48&width=64"
                             }
                             alt={car.title}
                             fill

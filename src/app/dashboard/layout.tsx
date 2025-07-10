@@ -13,7 +13,7 @@ export default function DashboardLayout({
       </div>
 
       {/* Main content */}
-      <div className="flex-1 md:pl-64 flex flex-col w-full">
+      <div className="flex-1 md:pl-56 lg:pl-64 flex flex-col w-full">
         <div className="flex h-16 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8 dark:border-gray-800 dark:bg-gray-900 flex-shrink-0">
           <div className="flex flex-1 items-center gap-x-4 self-stretch lg:gap-x-6">
             <div className="flex items-center gap-x-4 lg:gap-x-6">
