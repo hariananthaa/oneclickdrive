@@ -83,6 +83,7 @@ export function CarsDataTable() {
 
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [selectedCar, setSelectedCar] = useState<Car | null>(null);
+  const [dialogKey, setDialogKey] = useState(0);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -211,6 +212,7 @@ export function CarsDataTable() {
 
   const handleEditClick = (car: Car) => {
     setSelectedCar(car);
+    setDialogKey((prev) => prev + 1);
     setEditDialogOpen(true);
   };
 
@@ -477,6 +479,7 @@ export function CarsDataTable() {
       </div>
 
       <EditCarDialog
+        key={dialogKey}
         car={selectedCar}
         open={editDialogOpen}
         onOpenChange={setEditDialogOpen}

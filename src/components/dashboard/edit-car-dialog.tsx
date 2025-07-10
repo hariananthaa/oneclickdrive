@@ -38,12 +38,19 @@ export function EditCarDialog({
 }: EditCarDialogProps) {
   const [state, action, isPending] = useActionState(updateCar, null);
   const hasHandledSuccess = useRef(false);
+  const lastCarId = useRef<number | null>(null);
 
+  // Reset state
   useEffect(() => {
-    if (open) {
+    if (open && car) {
       hasHandledSuccess.current = false;
+      if (lastCarId.current !== car.id) {
+        lastCarId.current = car.id;
+        const dummyForm = new FormData();
+        dummyForm.append("reset", "true");
+      }
     }
-  }, [open]);
+  }, [open, car]);
 
   useEffect(() => {
     if (state?.success && open && !hasHandledSuccess.current) {
@@ -55,7 +62,7 @@ export function EditCarDialog({
       setTimeout(() => {
         console.log("Close dialog");
         onOpenChange(false);
-      }, 1500);
+      }, 500);
     }
   }, [state?.success, open, onSuccess, onOpenChange]);
 
@@ -73,7 +80,6 @@ export function EditCarDialog({
         <form action={action} className="space-y-6">
           <input type="hidden" name="id" value={car.id} />
 
-          {/* Car Image */}
           <div className="space-y-2">
             <Label htmlFor="imageUrl">Image</Label>
             <Input
@@ -201,7 +207,6 @@ export function EditCarDialog({
             </div>
           </div>
 
-          {/* Boolean Fields */}
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
@@ -255,8 +260,7 @@ export function EditCarDialog({
             </div>
           </div>
 
-          {/* Status Messages */}
-          {state?.message && (
+          {state?.message && !(state.success && !hasHandledSuccess.current) && (
             <div
               className={`p-3 rounded-md text-sm ${
                 state.success
