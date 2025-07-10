@@ -25,33 +25,7 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
-  icons: {
-    icon: [
-      {
-        url: "/images/ocd_app_icon.webp",
-        sizes: "32x32",
-        type: "image/webp",
-      },
-      {
-        url: "/images/ocd_app_icon.webp",
-        sizes: "16x16",
-        type: "image/webp",
-      },
-      {
-        url: "/images/ocd_app_icon.webp",
-        sizes: "192x192",
-        type: "image/webp",
-      },
-    ],
-    apple: [
-      {
-        url: "/images/ocd_app_icon.webp",
-        sizes: "180x180",
-        type: "image/webp",
-      },
-    ],
-    shortcut: "/images/ocd_app_icon.webp",
-  },
+  icons: "/images/ocd_app_icon.webp",
   category: "automotive",
 };
 
