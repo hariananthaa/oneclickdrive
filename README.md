@@ -1,293 +1,295 @@
-# React + TypeScript + Vite + Tailwind CSS 4 + shadcn/ui
+# OneClickDrive - Car Rental Management System
 
-A modern React application built with TypeScript, Vite, Tailwind CSS 4, shadcn/ui components, and React Router DOM for routing.
+A modern car rental management system built with Next.js 15, featuring a comprehensive dashboard for managing car listings operations.
 
-## 🚀 Technologies Used
+## 🚀 Features
 
-- **[React 19](https://reactjs.org/)** - A JavaScript library for building user interfaces
-- **[TypeScript](https://www.typescriptlang.org/)** - Typed superset of JavaScript
-- **[Vite](https://vitejs.dev/)** - Next generation frontend tooling
-- **[Tailwind CSS 4](https://tailwindcss.com/)** - Utility-first CSS framework
-- **[shadcn/ui](https://ui.shadcn.com/)** - Re-usable components built with Radix UI and Tailwind CSS
-- **[React Router DOM](https://reactrouter.com/)** - Declarative routing for React applications
-- **[ESLint](https://eslint.org/)** - Code linting and formatting
+- **Car Management**: Edit, and manage car listings with detailed information
+- **Advanced Filtering**: Search and filter cars by status, category, location, and more
+- **URL-based State Management**: Shareable URLs with persistent filters and pagination
+- **Responsive Design**: Mobile-first design that works on all devices
+- **Database Integration**: Neon database with proper schema and relationships
+- **Image Management**: Car image upload and display functionality
+- **Status Management**: Approval workflow for car listings
+
+## 🛠️ Technologies Used
+
+### Frontend
+
+- **Next.js 15** - React framework with App Router
+- **React 19** - UI library with Server Components
+- **TypeScript** - Type-safe JavaScript
+- **Tailwind CSS** - Utility-first CSS framework
+- **shadcn/ui** - Modern UI component library
+- **Lucide React** - Beautiful icon library
+
+### Backend
+
+- **Next.js API Routes** - Server-side API endpoints
+- **Neon Database** - Serverless PostgreSQL database
+- **Zod** - Schema validation library
+
+### Development Tools
+
+- **ESLint** - Code linting
+- **Prettier** - Code formatting
+- **TypeScript** - Static type checking
 
 ## 📋 Prerequisites
 
-- Node.js (version 18 or higher)
-- pnpm package manager
+Before you begin, ensure you have the following installed:
 
-## 🛠️ Installation
+- **Node.js** (version 20.0 or higher)
+- **pnpm**
+- **Git**
 
-1. **Clone the repository**
+## 🚀 Getting Started
 
-   ```bash
-   git clone <your-repo-url>
-   cd <your-project-name>
-   ```
-
-2. **Install dependencies**
-
-   ```bash
-   npm install
-   # or
-   pnpm install
-   ```
-
-3. **Start the development server**
-
-   ```bash
-   npm run dev
-   # or
-   pnpm dev
-   ```
-
-4. **Open your browser**
-   Navigate to `http://localhost:5173` to see your application running.
-
-## 🏗️ Project Structure
-
-```
-src/
-├── components/         # Reusable components
-│   └── ui/             # shadcn/ui components
-├── pages/              # Considering this as a pages directory in nextjs
-├── lib/                # Utility functions
-├── hooks/              # Custom React hooks
-├── styles/             # Global styles and Tailwind CSS
-├── types/              # TypeScript type definitions
-├── App.tsx/            # Application routing definitions
-└── main.tsx            # Application entry point
-```
-
-## 🎨 Styling with Tailwind CSS 4
-
-This project uses Tailwind CSS 4 with the new CSS-first configuration. The configuration is handled through CSS imports and custom properties.
-
-### Key Features:
-
-- **CSS-first configuration** - No more `tailwind.config.js`
-- **Native CSS cascade layers** - Better style organization
-- **Improved performance** - Faster builds and smaller bundles
-- **Enhanced developer experience** - Better IntelliSense and debugging
-
-### Global Styles
-
-The main stylesheet is located at `src/styles/globals.css` and includes:
-
-- Tailwind CSS imports
-- Custom CSS variables for theming
-- Dark mode support
-- Component-specific styles
-
-## 🧩 shadcn/ui Components
-
-This project is configured with shadcn/ui for consistent, accessible, and customizable components.
-
-### Adding New Components
+### 1. Clone the Repository
 
 ```bash
-npx shadcn@latest add button
-npx shadcn@latest add card
-npx shadcn@latest add dialog
+git clone https://github.com/hariananthaa/oneclickdrive.git
+cd oneclickdrive
 ```
 
-### Using Components
-
-```tsx
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-
-function MyComponent() {
-  return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Hello World</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <Button>Click me</Button>
-      </CardContent>
-    </Card>
-  );
-}
-```
-
-## 🛣️ Routing with React Router DOM
-
-The application uses React Router DOM for client-side routing.
-
-### Basic Setup
-
-```tsx
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import HomePage from "./pages/HomePage";
-import AboutPage from "./pages/AboutPage";
-
-function App() {
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/about" element={<AboutPage />} />
-      </Routes>
-    </BrowserRouter>
-  );
-}
-```
-
-### Navigation
-
-```tsx
-import { Link, useNavigate } from "react-router-dom";
-
-function Navigation() {
-  const navigate = useNavigate();
-
-  return (
-    <nav>
-      <Link to="/">Home</Link>
-      <Link to="/about">About</Link>
-      <button onClick={() => navigate("/contact")}>Contact</button>
-    </nav>
-  );
-}
-```
-
-## 📝 Available Scripts
-
-- `pnpm run dev` - Start development server
-- `pnpm run build` - Build for production
-- `pnpm run preview` - Preview production build
-- `pnpm run lint` - Run ESLint
-
-## 🔧 Configuration Files
-
-### TypeScript Configuration
-
-- `tsconfig.json` - Base TypeScript configuration
-- `tsconfig.app.json` - App-specific TypeScript settings
-- `tsconfig.node.json` - Node.js specific settings
-
-### Vite Configuration
-
-- `vite.config.ts` - Vite build tool configuration
-- Includes path aliases for clean imports (`@/` prefix)
-- Tailwind CSS 4 plugin integration
-
-### shadcn/ui Configuration
-
-- `components.json` - shadcn/ui component configuration
-- Defines component paths, styling preferences, and aliases
-
-## 🎯 Development Guidelines
-
-### Code Style
-
-- Use TypeScript for type safety
-- Follow React best practices and hooks patterns
-- Use functional components with hooks
-- Implement proper error boundaries
-- Use semantic HTML elements
-
-### Component Structure
-
-```tsx
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-
-interface MyComponentProps {
-  title: string;
-  onAction?: () => void;
-}
-
-export function MyComponent({ title, onAction }: MyComponentProps) {
-  const [isLoading, setIsLoading] = useState(false);
-
-  const handleClick = async () => {
-    setIsLoading(true);
-    try {
-      await onAction?.();
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  return (
-    <div className="p-4">
-      <h2 className="text-xl font-semibold mb-4">{title}</h2>
-      <Button onClick={handleClick} disabled={isLoading}>
-        {isLoading ? "Loading..." : "Click me"}
-      </Button>
-    </div>
-  );
-}
-```
-
-### Styling Guidelines
-
-- Use Tailwind CSS utility classes
-- Leverage shadcn/ui components for consistency
-- Use CSS variables for theming
-- Implement responsive design with Tailwind breakpoints
-- Follow the established color palette and spacing scale
-
-## 🌙 Dark Mode Support
-
-The project includes built-in dark mode support through Tailwind CSS and shadcn/ui theming system.
-
-```tsx
-import { useTheme } from "@/hooks/use-theme";
-
-function ThemeToggle() {
-  const { theme, setTheme } = useTheme();
-
-  return (
-    <button
-      onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-      className="p-2 rounded-md border"
-    >
-      {theme === "dark" ? "🌞" : "🌙"}
-    </button>
-  );
-}
-```
-
-## 📦 Building for Production
+### 2. Install Dependencies
 
 ```bash
-pnpm run build
+pnpm install
 ```
 
-The build artifacts will be stored in the `dist/` directory. The build is optimized and ready for deployment to any static hosting service.
+### 3. Environment Setup
 
-## 🆘 Troubleshooting
+Create a `.env.local` file in the root directory:
 
-### Common Issues
-
-**Build errors with Tailwind CSS 4:**
-
-- Ensure you're using the latest version of Tailwind CSS
-- Check that your CSS imports are correct in `index.css`
-
-**TypeScript path resolution issues:**
-
-- Verify `tsconfig.json` and `vite.config.ts` have matching path aliases
-- Restart your TypeScript server in your IDE
-
-**shadcn/ui component issues:**
-
-- Run `npx shadcn@latest add <component-name>` to ensure latest versions
-- Check that `components.json` configuration matches your project structure
-
-## 📚 Additional Resources
-
-- [React Documentation](https://reactjs.org/docs)
-- [TypeScript Handbook](https://www.typescriptlang.org/docs)
-- [Vite Guide](https://vitejs.dev/guide)
-- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
-- [shadcn/ui Documentation](https://ui.shadcn.com)
-- [React Router Documentation](https://reactrouter.com/docs)
-
+```env
+# Neon Database Configuration
+DATABASE_URL="neon-database-url"
 ```
 
+### 4. Database Setup
+
+The application uses Neon PostgreSQL database. Make sure to:
+
+1. Create a Neon project at [neon.tech](https://neon.tech)
+2. Copy your connection strings to the `.env.local` file
+3. The database schema will be initialized automatically
+
+```bash
+# Run the development server
+pnpm run dev
 ```
+
+### 5. Run the Development Server
+
+```bash
+pnpm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) in your browser to see the application.
+
+## 👤 Sample Users for Testing
+
+The application comes with pre-configured sample users for testing different roles and permissions:
+
+### Admin User
+
+- **Email**: `admin@oneclickdrive.com`
+- **Password**: `admin123`
+- **Role**: Admin
+
+### Manager User
+
+- **Email**: `manager@oneclickdrive.com`
+- **Password**: `manager123`
+- **Role**: Manager
+
+## 📁 Project Structure
+
+```
+oneclickdrive/
+├── app/                          # Next.js App Router
+│   ├── api/                      # API routes
+│   │   └── cars/                 # Car-related endpoints
+│   ├── globals.css               # Global styles
+│   ├── layout.tsx                # Root layout
+│   └── page.tsx                  # Home page
+├── components/                   # React components
+│   ├── ui/                       # shadcn/ui components
+│   └── dashboard/                # Dashboard-specific components
+├── lib/                          # Utility libraries
+│   ├── database.ts               # Database configuration
+│   └── utils.ts                  # Helper functions
+├── types/                        # TypeScript type definitions
+├── public/                       # Static assets
+├── scripts/                      # Database scripts
+└── README.md                     # Project documentation
+```
+
+## 🗄️ Database Schema
+
+### Cars Table (PostgreSQL)
+
+```sql
+CREATE TABLE cars (
+  id SERIAL PRIMARY KEY,
+  title VARCHAR(255) NOT NULL,
+  brand VARCHAR(100) NOT NULL,
+  model VARCHAR(100) NOT NULL,
+  year INTEGER NOT NULL,
+  category VARCHAR(50) NOT NULL,
+  dailyRate DECIMAL(10,2) NOT NULL,
+  monthlyRate DECIMAL(10,2) NOT NULL,
+  location VARCHAR(255) NOT NULL,
+  imageUrl TEXT NOT NULL,
+  isPremium BOOLEAN DEFAULT FALSE,
+  availableForRent BOOLEAN DEFAULT TRUE,
+  status VARCHAR(20) DEFAULT 'pending',
+  createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+### Users Table (PostgreSQL)
+
+```sql
+CREATE TABLE users (
+  id SERIAL PRIMARY KEY,
+  email VARCHAR(255) UNIQUE NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  name VARCHAR(255) NOT NULL,
+  role VARCHAR(50) DEFAULT 'customer',
+  isActive BOOLEAN DEFAULT TRUE,
+  createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+## 🔧 API Endpoints
+
+### Cars API
+
+- **GET** `/api/cars` - Get all cars with pagination and filtering
+  - Query parameters: `page`, `limit`, `search`, `status`
+- **PUT** `/api/cars/[id]` - Update a specific car
+
+### Authentication API
+
+- **POST** `/api/auth/login` - User login
+- **POST** `/api/auth/logout` - User logout
+- **GET** `/api/auth/me` - Get current user information
+
+### Example API Usage
+
+```javascript
+// Fetch cars with filters
+const response = await fetch(
+  "/api/cars?page=1&limit=10&search=toyota&status=approved"
+);
+const data = await response.json();
+
+// Update a car
+const response = await fetch("/api/cars/1", {
+  method: "PUT",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    title: "Updated Car Title",
+    status: "approved",
+  }),
+});
+
+// User login
+const response = await fetch("/api/auth/login", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    email: "admin@oneclickdrive.com",
+    password: "admin123",
+  }),
+});
+```
+
+## 🎨 UI Components
+
+The project uses **shadcn/ui** some components for consistent design:
+
+- **Table** - Data display with sorting and pagination
+- **Button** - Interactive elements
+- **Input** - Form inputs with validation
+- **Select** - Dropdown selections
+- **Badge** - Status indicators
+- **Card** - Content containers
+- **Dialog** - Modal interactions
+
+## 🔍 Key Features Implementation
+
+### URL-based State Management
+
+The application uses Next.js App Router's `useSearchParams` for URL-based state management:
+
+```typescript
+const searchParams = useSearchParams();
+const router = useRouter();
+const pathname = usePathname();
+
+// Update URL with new parameters
+const createQueryString = useCallback(
+  (updates: Record<string, string | number>) => {
+    const params = new URLSearchParams(searchParams.toString());
+    // Update parameters logic
+    return params.toString();
+  },
+  [searchParams]
+);
+```
+
+### Debounced Search
+
+Search functionality uses debouncing to optimize API calls:
+
+```typescript
+useEffect(() => {
+  const timer = setTimeout(() => {
+    setDebouncedSearch(searchQuery);
+  }, 500);
+  return () => clearTimeout(timer);
+}, [searchQuery]);
+```
+
+## 🚀 Deployment
+
+### Vercel
+
+This application is deployed on Vercel with the following setup:
+
+1. **Automatic Deployments**: Connected to GitHub for automatic deployments
+2. **Environment Variables**: Configured in Vercel dashboard
+3. **Neon Integration**: Database automatically connected via Vercel integration
+
+**Live Application**: [Live Demo](https://oneclickdrive.vercel.app/)
+
+## 📝 Scripts
+
+```bash
+pnpm run dev          # Start development server
+pnpm run build        # Build for production
+pnpm run start        # Start production server
+pnpm run lint         # Run ESLint
+```
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- [Next.js](https://nextjs.org/) - The React framework
+- [Neon](https://neon.tech/) - Serverless PostgreSQL database
+- [shadcn/ui](https://ui.shadcn.com/) - UI components
+- [Tailwind CSS](https://tailwindcss.com/) - CSS framework
+- [Lucide](https://lucide.dev/) - Icon library
+- [Vercel](https://vercel.com/) - Deployment platform
