@@ -1,5 +1,19 @@
 import { MobileSidebar, Sidebar } from "@/components/dashboard/sidebar";
+import { Metadata } from "next";
 import type React from "react";
+
+export const metadata: Metadata = {
+  title: "Dashboard - OneClickDrive",
+  description: "OneClickDrive dashboard for managing your driving experience",
+  keywords: ["dashboard", "driving", "oneclickdrive", "car management"],
+  authors: [{ name: "OneClickDrive" }],
+  creator: "OneClickDrive",
+  publisher: "OneClickDrive",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default function DashboardLayout({
   children,

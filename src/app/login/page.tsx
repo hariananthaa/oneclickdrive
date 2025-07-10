@@ -1,4 +1,24 @@
 import LoginForm from "@/components/auth/login-form";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Login - OneClickDrive",
+  description: "Sign in to your OneClickDrive account to car renting services",
+  keywords: [
+    "login",
+    "sign in",
+    "oneclickdrive",
+    "authentication",
+    "account access",
+  ],
+  authors: [{ name: "OneClickDrive" }],
+  creator: "OneClickDrive",
+  publisher: "OneClickDrive",
+  robots: {
+    index: true,
+    follow: true,
+  },
+};
 
 async function Page() {
   return (
