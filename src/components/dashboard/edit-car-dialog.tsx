@@ -2,7 +2,6 @@
 
 import { useActionState, useEffect, useRef } from "react";
 import Image from "next/image";
-import type { Car } from "@/lib/database";
 import {
   Dialog,
   DialogContent,
