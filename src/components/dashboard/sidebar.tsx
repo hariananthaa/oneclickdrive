@@ -83,7 +83,7 @@ function MobileSidebar() {
 
 export function Sidebar() {
   return (
-    <div className="hidden md:fixed md:inset-y-0 md:z-50 md:flex md:w-64 md:flex-col">
+    <div className="hidden md:fixed md:inset-y-0 md:z-50 md:flex md:w-56 lg:w-64 md:flex-col">
       <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900">
         <SidebarContent />
       </div>
