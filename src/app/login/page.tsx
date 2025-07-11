@@ -14,6 +14,7 @@ export const metadata: Metadata = {
   authors: [{ name: "OneClickDrive" }],
   creator: "OneClickDrive",
   publisher: "OneClickDrive",
+  icons: "/images/ocd_app_icon.webp",
   robots: {
     index: true,
     follow: true,
