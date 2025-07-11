@@ -13,6 +13,7 @@ export const metadata: Metadata = {
     index: false,
     follow: false,
   },
+  icons: "/images/ocd_app_icon.webp",
 };
 
 export default function DashboardLayout({
